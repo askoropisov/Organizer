@@ -7,6 +7,7 @@ namespace Organizer.Views
         public MainWindow()
         {
             InitializeComponent();
+            WindowState = WindowState.Maximized;
         }
     }
 }
