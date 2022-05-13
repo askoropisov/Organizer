@@ -10,5 +10,9 @@
             <vm:AboutViewModel/>
        </UserControl.DataContext>
 
-        <TextBlock>Info</TextBlock>
+
+    <StackPanel Orientation="Vertical">
+        <TextBlock>Autor: Artem Skoropisov</TextBlock>
+        <TextBlock>Owner: ArtCorporation</TextBlock>
+    </StackPanel>
 </UserControl>
