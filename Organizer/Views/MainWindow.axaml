@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Organizer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="using:Organizer.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Organizer.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Organizer">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+
+    <TabControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <TabItem Header="Расчет финансов">
+            <views:FinanceCalc/>
+        </TabItem>
+        <TabItem Header="История">
+            <views:History/>
+        </TabItem>
+        <TabItem Header="О программе">
+            <views:About/>
+        </TabItem>
+    </TabControl>
+
+</Window>
