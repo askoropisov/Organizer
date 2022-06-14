@@ -106,7 +106,7 @@ namespace Organizer.Services
             get => Items.Income;
             set
             {
-                Items.Other = value;
+                Items.Income = value;
                 OnPropertyChanged();
             }
         }
@@ -130,6 +130,7 @@ namespace Organizer.Services
             Relaxation = 0;
             Other = 0;
             Total = 0;
+            Income = 0;
             OnPropertyChanged();
         }
 

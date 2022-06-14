@@ -1,5 +1,6 @@
-﻿using Organizer.Models;
-using Organizer.Services;
+﻿using Organizer.Services;
+using OxyPlot;
+using OxyPlot.Series;
 using Prism.Commands;
 using ReactiveUI;
 using System;
@@ -8,12 +9,20 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Organizer.ViewModels
 {
+
+    //public class ContinentItem
+    //{
+    //    public string Name { get; set; }
+
+    //    public double PopulationInMillions { get; set; }
+
+    //    public bool IsExploded { get; set; }
+    //}
+
     public class FinanceCalculateViewModel : ViewModelBase
     {
         private readonly ItemsService _items;
@@ -26,15 +35,56 @@ namespace Organizer.ViewModels
             _items = items;
             _history = history;
 
+            //PlotModel = new PlotModel();
+
+
+            //var plotModel = new PlotModel { Title = "World population by continent" };
+            //var pieSeries = new PieSeries() { TextColor = OxyColors.DeepPink };
+            //pieSeries.Slices.Add(new PieSlice("Africa", 1030) { IsExploded = true });
+            //pieSeries.Slices.Add(new PieSlice("Americas", 929) { IsExploded = true });
+            //pieSeries.Slices.Add(new PieSlice("Asia", 4157));
+            //pieSeries.Slices.Add(new PieSlice("Europe", 739) { IsExploded = true });
+            //pieSeries.Slices.Add(new PieSlice("Oceania", 35) { IsExploded = true });
+            //pieSeries.InnerDiameter = 0.2;
+            //pieSeries.ExplodedDistance = 0;
+            //pieSeries.Stroke = OxyColors.Black;
+            //pieSeries.StrokeThickness = 1.0;
+            //pieSeries.AngleSpan = 360;
+            //pieSeries.StartAngle = 0;
+            //plotModel.Series.Add(pieSeries);
+
+            //Continents = new ObservableCollection<ContinentItem>();
+            //Continents.Add(new ContinentItem { Name = "Africa", PopulationInMillions = 1030, IsExploded = true });
+            //Continents.Add(new ContinentItem { Name = "Americas", PopulationInMillions = 929, IsExploded = true });
+            //Continents.Add(new ContinentItem { Name = "Asia", PopulationInMillions = 4157, IsExploded = true });
+            //Continents.Add(new ContinentItem { Name = "Europe", PopulationInMillions = 739, IsExploded = true });
+            //Continents.Add(new ContinentItem { Name = "Oceania", PopulationInMillions = 35, IsExploded = true });
+
+            //PlotModel = plotModel;
+
             SumEatCommand = new DelegateCommand(SumEat);
             SumTransportCommand = new DelegateCommand(SumTransport);
             SumHomeCommand = new DelegateCommand(SumHome);
             SumServicesCommand = new DelegateCommand(SumServices);
             SumRelaxationCommand = new DelegateCommand(SumRelaxation);
             SumOtherCommand = new DelegateCommand(SumOther);
+            SumIncomeCommand = new DelegateCommand(SumIncome);
             ClearDataCommand = new DelegateCommand(ClearData);
             SaveDatasCommand = new DelegateCommand(SaveDatas);
+
+            //PlotModel.InvalidatePlot(true);
         }
+
+        //public ObservableCollection<ContinentItem> Continents { get; set; }
+
+
+        private PlotModel modelP1;
+        public PlotModel PlotModel
+        {
+            get; set;
+        }
+
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -48,6 +98,7 @@ namespace Organizer.ViewModels
         public ICommand SumServicesCommand { get; }
         public ICommand SumRelaxationCommand { get; }
         public ICommand SumOtherCommand { get; }
+        public ICommand SumIncomeCommand { get; }
 
         public ICommand ClearDataCommand { get; }
         public ICommand SaveDatasCommand { get; }
@@ -300,7 +351,7 @@ namespace Organizer.ViewModels
             Other = 0;
         }
 
-        public void Sumincome()
+        public void SumIncome()
         {
             ResIncome += Income;
             Income = 0;

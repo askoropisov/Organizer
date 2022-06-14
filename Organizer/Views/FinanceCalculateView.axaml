@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Organizer.ViewModels"
+             xmlns:oxy="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Organizer.Views.FinanceCalculateView">
 
@@ -27,8 +28,10 @@
         </Style>
     </UserControl.Styles>
 
-    <Grid>
+    <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -109,54 +112,32 @@
         <TextBlock  Grid.Column="5" Grid.Row="10"
                     Text="{Binding Res5}"></TextBlock>
 
+        <TextBlock Grid.Column="1" Grid.Row="12">Прочее</TextBlock>
+        <TextBox  Grid.Column="2" Grid.Row="12"
+                  Text="{Binding Other}"></TextBox>
+        <Button Grid.Column="3" Grid.Row="12"
+                Command="{Binding SumOtherCommand}">✓</Button>
+        <TextBlock  Grid.Column="5" Grid.Row="12"
+                    Text="{Binding Res6}"></TextBlock>
 
-        <TextBlock Grid.Column="8" Grid.Row="2">test1</TextBlock>
-        <TextBox  Grid.Column="9" Grid.Row="2"
-                  Text="{Binding Eat}"></TextBox>
-        <Button Grid.Column="10" Grid.Row="2"
-                Command="{Binding SumEatCommand}">✓</Button>
-        <TextBlock  Grid.Column="12" Grid.Row="2"
-                    Text="{Binding Res1}"></TextBlock>
 
-        <TextBlock Grid.Column="8" Grid.Row="4">test2</TextBlock>
-        <TextBox  Grid.Column="9" Grid.Row="4"
-                  Text="{Binding Transport}"></TextBox>
-        <Button Grid.Column="10" Grid.Row="4"
-                Command="{Binding SumTransportCommand}">✓</Button>
-        <TextBlock  Grid.Column="12" Grid.Row="4"
-                    Text="{Binding Res2}"></TextBlock>
+        <TextBlock Grid.Column="8" Grid.Row="12">Income</TextBlock>
+        <TextBox  Grid.Column="9" Grid.Row="12"
+                  Text="{Binding Income}"></TextBox>
+        <Button Grid.Column="10" Grid.Row="12"
+                Command="{Binding SumIncomeCommand}">✓</Button>
+        <TextBlock  Grid.Column="12" Grid.Row="12"
+                    Text="{Binding ResIncome}"></TextBlock>
 
-        <TextBlock Grid.Column="8" Grid.Row="6">test3</TextBlock>
-        <TextBox  Grid.Column="9" Grid.Row="6"
-                  Text="{Binding Home}"></TextBox>
-        <Button Grid.Column="10" Grid.Row="6"
-                Command="{Binding SumHomeCommand}">✓</Button>
-        <TextBlock  Grid.Column="12" Grid.Row="6"
-                    Text="{Binding Res3}"></TextBlock>
 
-        <TextBlock Grid.Column="8" Grid.Row="8">test4</TextBlock>
-        <TextBox  Grid.Column="9" Grid.Row="8"
-                  Text="{Binding Services}"></TextBox>
-        <Button Grid.Column="10" Grid.Row="8"
-                Command="{Binding SumServicesCommand}">✓</Button>
-        <TextBlock  Grid.Column="12" Grid.Row="8"
-                    Text="{Binding Res4}"></TextBlock>
-
-        <TextBlock Grid.Column="8" Grid.Row="10">test5</TextBlock>
-        <TextBox  Grid.Column="9" Grid.Row="10"
-                  Text="{Binding Relaxation}"></TextBox>
-        <Button Grid.Column="10" Grid.Row="10"
-                Command="{Binding SumRelaxationCommand}">✓</Button>
-        <TextBlock  Grid.Column="12" Grid.Row="10"
-                    Text="{Binding Res5}"></TextBlock>
-
-        <TextBlock Grid.Column="4" Grid.Row="12"
+        <TextBlock Grid.Column="4" Grid.Row="14"
                    FontSize="20" VerticalAlignment="Center">Итогo:</TextBlock>
 
-        <TextBlock Grid.Column="9" Grid.Row="12"
+        <TextBlock Grid.Column="9" Grid.Row="14"
                    Text="{Binding TotalMoney}"></TextBlock>
 
-        <Button  Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="14"
+        <Button  Grid.Column="5" Grid.ColumnSpan="2"
+                 Grid.Row="16" Grid.RowSpan="2"
                  FontSize="17"
                  Width="110" ToolTip.Tip="Очистить все поля"
                  VerticalAlignment="Center"
@@ -164,13 +145,42 @@
                  Command="{Binding ClearDataCommand}"
                  Content="Сбросить"/>
 
-        <Button Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="14"
+        <Button Grid.Column="7" Grid.ColumnSpan="2"
+                Grid.Row="16" Grid.RowSpan="2"
                 FontSize="17"
                 Width="110" ToolTip.Tip="Сохранить данные в таблицу"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Command="{Binding SaveDatasCommand}"
                 Content="Сохранить"/>
+
+        <!--<TabControl Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="5" Grid.RowSpan="10">
+            <TabItem Header="Binding to PlotModel">
+                <oxy:PlotView Model="{Binding PlotModel}" />
+            </TabItem>
+            <TabItem Header="Define plot in XAML">
+                <oxy:Plot Title="World population by continent">
+                    <oxy:Plot.Series>
+                        <oxy:PieSeries
+                            InnerDiameter="0.2"
+                            ExplodedDistance="0"
+                            Stroke="Black" StrokeThickness="1"
+                            StartAngle="0" AngleSpan="360"
+                            Items="{Binding Continents}"
+                            LabelField="Name" ValueField="PopulationInMillions"
+                            IsExplodedField="IsExploded"
+                            Foreground="BlueViolet"/>
+                    </oxy:Plot.Series>
+                </oxy:Plot>
+            </TabItem>
+        </TabControl>-->
+
+        <!--<oxy:PlotView Grid.Column="6" Grid.Row="6"  VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                  Grid.RowSpan="5" Grid.ColumnSpan="5"
+             x:Name="plotView"
+             Margin="0,0,7,0"
+             Model="{Binding PlotModel}"/>-->
 
     </Grid>
 
