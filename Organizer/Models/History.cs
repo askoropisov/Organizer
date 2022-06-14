@@ -23,7 +23,7 @@ namespace Organizer.Models
         {
             string RoadAppDate = @"C:\Users\";
             string userName = Environment.UserName;
-            RoadAppDate += userName += @"\AppData\Local\FinanceAssistent";
+            RoadAppDate += userName += @"\AppData\Roaming\Organizer\FinanceAssistent";
 
             using (FileStream fs = new FileStream(Path.Combine(RoadAppDate, "history.json"), FileMode.Create))
             {
@@ -36,7 +36,7 @@ namespace Organizer.Models
         {
             string RoadAppDate = @"C:\Users\";
             string userName = Environment.UserName;
-            RoadAppDate += userName += @"\AppData\Local\FinanceAssistent";
+            RoadAppDate += userName += @"\AppData\Roaming\Organizer\FinanceAssistent";
 
             using (FileStream fs = new FileStream(Path.Combine(RoadAppDate, "history.json"), FileMode.OpenOrCreate))
             {
@@ -48,7 +48,7 @@ namespace Organizer.Models
         {
             string RoadAppDate = @"C:\Users\";
             string userName = Environment.UserName;
-            RoadAppDate += userName += @"\AppData\Local\FinanceAssistent";
+            RoadAppDate += userName += @"\AppData\Roaming\Organizer\FinanceAssistent";
 
             try
             {

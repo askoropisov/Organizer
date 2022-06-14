@@ -14,7 +14,7 @@ namespace Organizer.Services
     {
 
         public static ItemsService Instance { get; } = new ItemsService();
-        Items? _items;
+        Items _items;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
