@@ -20,11 +20,11 @@ namespace Organizer.ViewModels
         private readonly HistoryService _history;
         //private readonly History _history;
 
-        public FinanceCalculateViewModel()
+        public FinanceCalculateViewModel(ItemsService items,
+                                         HistoryService history)
         {
-            _items = ItemsService.Instance;
-            _history = HistoryService.Instance;
-            // _history = History.Instance;
+            _items = items;
+            _history = history;
 
             SumEatCommand = new DelegateCommand(SumEat);
             SumTransportCommand = new DelegateCommand(SumTransport);
@@ -142,6 +142,21 @@ namespace Organizer.ViewModels
             }
         }
 
+        private int _resIncome = 0;
+        public int ResIncome
+        {
+            get => _items.Income;
+            set
+            {
+                if (value >= 0)
+                {
+                    _items.Income = value;
+                    OnPropertyChanged();
+                    this.RaiseAndSetIfChanged(ref _resIncome, value);
+                }
+            }
+        }
+
         private double _eat = 0;
         public double Eat
         {
@@ -222,6 +237,17 @@ namespace Organizer.ViewModels
             }
         }
 
+        private int _income = 0;
+        public int Income
+        {
+            get => _income;
+            set
+            {
+                if(value >= 0)
+                    this.RaiseAndSetIfChanged(ref _income, value);
+            }
+        }
+
         private string _nowTime = DateTime.Now.ToShortDateString();
         public string NowTime
         {
@@ -274,6 +300,12 @@ namespace Organizer.ViewModels
             Other = 0;
         }
 
+        public void Sumincome()
+        {
+            ResIncome += Income;
+            Income = 0;
+        }
+
 
         /// <summary>
         /// TODO Корявая функция, надо переделать нормально и включить историю
@@ -287,6 +319,7 @@ namespace Organizer.ViewModels
             Res4 = 0;
             Res5 = 0;
             Res6 = 0;
+            ResIncome = 0;
             TotalMoney = 0;
             OnPropertyChanged();
         }
@@ -297,67 +330,67 @@ namespace Organizer.ViewModels
         /// </summary>
         public void SaveDatas()
         {
-            try
-            {
-                string? last_date = _history.CollectionHistory.Last().Data;
-                string dateNow = DateTime.Now.Month.ToString() + " " + DateTime.Now.Year.ToString();
+        //    try
+        //    {
+        //        string? last_date = _history.CollectionHistory.Last().Data;
+        //        string dateNow = DateTime.Now.Month.ToString() + " " + DateTime.Now.Year.ToString();
 
-                if (dateNow == last_date)
-                {
-                    ObservableCollection<ScoreForMonth> NewHistory = _history.CollectionHistory;
-                    ScoreForMonth ThisMonth = new ScoreForMonth();
+        //        if (dateNow == last_date)
+        //        {
+        //            ObservableCollection<ScoreForMonth> NewHistory = _history.CollectionHistory;
+        //            ScoreForMonth ThisMonth = new ScoreForMonth();
 
-                    NewHistory.Last().Eat = Res1;
-                    NewHistory.Last().Transport = Res2;
-                    NewHistory.Last().Home = Res3;
-                    NewHistory.Last().Services = Res4;
-                    NewHistory.Last().Relaxation = Res5;
-                    NewHistory.Last().Other = Res6;
-                    NewHistory.Last().Total = TotalMoney;
-                    NewHistory.Last().Data = dateNow;
+        //            NewHistory.Last().Eat = Res1;
+        //            NewHistory.Last().Transport = Res2;
+        //            NewHistory.Last().Home = Res3;
+        //            NewHistory.Last().Services = Res4;
+        //            NewHistory.Last().Relaxation = Res5;
+        //            NewHistory.Last().Other = Res6;
+        //            NewHistory.Last().Total = TotalMoney;
+        //            NewHistory.Last().Data = dateNow;
 
-                    _history.CollectionHistory = NewHistory;
-                    OnPropertyChanged();
-                }
-                else
-                {
-                    ObservableCollection<ScoreForMonth> NewHistory = _history.CollectionHistory;
-                    ScoreForMonth ThisMonth = new ScoreForMonth();
+        //            _history.CollectionHistory = NewHistory;
+        //            OnPropertyChanged();
+        //        }
+        //        else
+        //        {
+        //            ObservableCollection<ScoreForMonth> NewHistory = _history.CollectionHistory;
+        //            ScoreForMonth ThisMonth = new ScoreForMonth();
 
-                    ThisMonth.Eat = Res1;
-                    ThisMonth.Transport = Res2;
-                    ThisMonth.Home = Res3;
-                    ThisMonth.Services = Res4;
-                    ThisMonth.Relaxation = Res5;
-                    ThisMonth.Other = Res6;
-                    ThisMonth.Total = TotalMoney;
-                    ThisMonth.Data = dateNow;
+        //            ThisMonth.Eat = Res1;
+        //            ThisMonth.Transport = Res2;
+        //            ThisMonth.Home = Res3;
+        //            ThisMonth.Services = Res4;
+        //            ThisMonth.Relaxation = Res5;
+        //            ThisMonth.Other = Res6;
+        //            ThisMonth.Total = TotalMoney;
+        //            ThisMonth.Data = dateNow;
 
-                    NewHistory.Add(ThisMonth);
-                    _history.CollectionHistory = NewHistory;
-                    OnPropertyChanged();
-                }
-            }
-            catch
-            {
-                string dateNow = DateTime.Now.Month.ToString() + " " + DateTime.Now.Year.ToString();
-                ScoreForMonth ThisMonth = new ScoreForMonth();
+        //            NewHistory.Add(ThisMonth);
+        //            _history.CollectionHistory = NewHistory;
+        //            OnPropertyChanged();
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        string dateNow = DateTime.Now.Month.ToString() + " " + DateTime.Now.Year.ToString();
+        //        ScoreForMonth ThisMonth = new ScoreForMonth();
 
-                ObservableCollection<ScoreForMonth> NewHistory = new ObservableCollection<ScoreForMonth>();
+        //        ObservableCollection<ScoreForMonth> NewHistory = new ObservableCollection<ScoreForMonth>();
 
-                ThisMonth.Eat = Res1;
-                ThisMonth.Transport = Res2;
-                ThisMonth.Home = Res3;
-                ThisMonth.Services = Res4;
-                ThisMonth.Relaxation = Res5;
-                ThisMonth.Other = Res6;
-                ThisMonth.Total = TotalMoney;
-                ThisMonth.Data = dateNow;
+        //        ThisMonth.Eat = Res1;
+        //        ThisMonth.Transport = Res2;
+        //        ThisMonth.Home = Res3;
+        //        ThisMonth.Services = Res4;
+        //        ThisMonth.Relaxation = Res5;
+        //        ThisMonth.Other = Res6;
+        //        ThisMonth.Total = TotalMoney;
+        //        ThisMonth.Data = dateNow;
 
-                NewHistory.Add(ThisMonth);
-                _history.CollectionHistory = NewHistory;
-                OnPropertyChanged();
-            }
+        //        NewHistory.Add(ThisMonth);
+        //        _history.CollectionHistory = NewHistory;
+        //        OnPropertyChanged();
+        //    }
         }
     }
 }

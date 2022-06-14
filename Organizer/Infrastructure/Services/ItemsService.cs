@@ -1,4 +1,6 @@
-﻿using Organizer.Models;
+﻿using Organizer.Infrastructure.Services;
+using Organizer.Models;
+using Organizer.Models.Configs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,47 +14,22 @@ namespace Organizer.Services
 {
     public class ItemsService : INotifyPropertyChanged
     {
-
-        public static ItemsService Instance { get; } = new ItemsService();
+        private readonly PathsService _paths;
+        private readonly ItemsConfig _conf;
         Items _items;
+        
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ItemsService()
+        public ItemsService(PathsService paths,
+                            ItemsConfig conf)
         {
-            Start();
+            _paths = paths;
+            _conf = conf;
+
+            _items = conf.Items;
         }
 
-        public void Start()
-        {
-            if (_items == null)
-            {
-                Items? items = null;
-                try
-                {
-                    items = FileItemJSON.ReadJSON();
-                }
-                catch (JsonException)
-                {
-                }
-                catch (UnauthorizedAccessException)
-                { }
-
-                if (items == null)
-                {
-                    items = new Items();
-                    FileItemJSON.WriteJSON(items);
-                }
-
-                Items = items;
-
-
-                foreach (var property in typeof(ItemsService).GetProperties())
-                {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property.Name));
-                }
-            }
-        }
 
         public Items Items
         {
@@ -124,6 +101,16 @@ namespace Organizer.Services
             }
         }
 
+        public int Income
+        {
+            get => Items.Income;
+            set
+            {
+                Items.Other = value;
+                OnPropertyChanged();
+            }
+        }
+
         public double Total
         {
             get => Items.Total;
@@ -149,7 +136,7 @@ namespace Organizer.Services
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            FileItemJSON.WriteJSON(Items);
+            _conf.WriteJSON(Items);
         }
     }
 }

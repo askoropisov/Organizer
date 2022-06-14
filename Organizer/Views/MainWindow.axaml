@@ -9,20 +9,23 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Organizer">
 
-     <Design.DataContext>
+     <!--<Design.DataContext>
         <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    </Design.DataContext>-->
 
 
     <TabControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <TabItem Header="Расчет финансов">
-            <views:FinanceCalculateView/>
+            <views:FinanceCalculateView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   DataContext="{Binding FCDataContext}"/>
         </TabItem>
         <TabItem Header="История">
-            <views:HistoryView/>
+            <views:HistoryView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   DataContext="{Binding HistoryDataContext}"/>
         </TabItem>
         <TabItem Header="О программе">
-            <views:About/>
+            <views:About HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   DataContext="{Binding AboutDataContext}"/>
         </TabItem>
     </TabControl>
 </Window>
