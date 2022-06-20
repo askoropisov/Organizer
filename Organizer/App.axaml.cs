@@ -6,6 +6,7 @@ using Avalonia.Threading;
 using DryIoc;
 using Organizer.Infrastructure.Factories;
 using Organizer.Infrastructure.Services;
+using Organizer.Models;
 using Organizer.Models.Configs;
 using Organizer.Services;
 using Organizer.ViewModels;
@@ -41,11 +42,12 @@ namespace Organizer
             container.Register<HistoryConfig>(Reuse.Singleton);
             container.Register<ItemsConfig>(Reuse.Singleton);
 
+            container.Register<PiePlot>(Reuse.Singleton);
+
             container.Register<MainWindowViewModel>(Reuse.Singleton);
             container.Register<AboutViewModel>();
             container.Register<FinanceCalculateViewModel>();
             container.Register<HistoryViewModel>();
-
 
             var resolver = new DryIocDependencyResolver(container);
             Locator.SetLocator(resolver);

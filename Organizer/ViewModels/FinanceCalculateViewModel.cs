@@ -1,8 +1,12 @@
-﻿using Organizer.Services;
+﻿using Avalonia.Media.Imaging;
+using Organizer.Infrastructure.Services;
+using Organizer.Models;
+using Organizer.Services;
 using OxyPlot;
 using OxyPlot.Series;
 using Prism.Commands;
 using ReactiveUI;
+using ScottPlot.Avalonia;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,53 +18,24 @@ using System.Windows.Input;
 namespace Organizer.ViewModels
 {
 
-    //public class ContinentItem
-    //{
-    //    public string Name { get; set; }
-
-    //    public double PopulationInMillions { get; set; }
-
-    //    public bool IsExploded { get; set; }
-    //}
-
     public class FinanceCalculateViewModel : ViewModelBase
     {
         private readonly ItemsService _items;
         private readonly HistoryService _history;
-        //private readonly History _history;
+        private readonly PathsService _path;
+        private readonly PiePlot _plot;
 
         public FinanceCalculateViewModel(ItemsService items,
-                                         HistoryService history)
+                                         HistoryService history,
+                                         PathsService path,
+                                         PiePlot plot)
         {
             _items = items;
             _history = history;
+            _path = path;
+            _plot = plot;
 
-            //PlotModel = new PlotModel();
-
-
-            //var plotModel = new PlotModel { Title = "World population by continent" };
-            //var pieSeries = new PieSeries() { TextColor = OxyColors.DeepPink };
-            //pieSeries.Slices.Add(new PieSlice("Africa", 1030) { IsExploded = true });
-            //pieSeries.Slices.Add(new PieSlice("Americas", 929) { IsExploded = true });
-            //pieSeries.Slices.Add(new PieSlice("Asia", 4157));
-            //pieSeries.Slices.Add(new PieSlice("Europe", 739) { IsExploded = true });
-            //pieSeries.Slices.Add(new PieSlice("Oceania", 35) { IsExploded = true });
-            //pieSeries.InnerDiameter = 0.2;
-            //pieSeries.ExplodedDistance = 0;
-            //pieSeries.Stroke = OxyColors.Black;
-            //pieSeries.StrokeThickness = 1.0;
-            //pieSeries.AngleSpan = 360;
-            //pieSeries.StartAngle = 0;
-            //plotModel.Series.Add(pieSeries);
-
-            //Continents = new ObservableCollection<ContinentItem>();
-            //Continents.Add(new ContinentItem { Name = "Africa", PopulationInMillions = 1030, IsExploded = true });
-            //Continents.Add(new ContinentItem { Name = "Americas", PopulationInMillions = 929, IsExploded = true });
-            //Continents.Add(new ContinentItem { Name = "Asia", PopulationInMillions = 4157, IsExploded = true });
-            //Continents.Add(new ContinentItem { Name = "Europe", PopulationInMillions = 739, IsExploded = true });
-            //Continents.Add(new ContinentItem { Name = "Oceania", PopulationInMillions = 35, IsExploded = true });
-
-            //PlotModel = plotModel;
+            CurrentImage = new Bitmap(_path.ConfigDirectory + "/currentPie.png");
 
             SumEatCommand = new DelegateCommand(SumEat);
             SumTransportCommand = new DelegateCommand(SumTransport);
@@ -72,19 +47,14 @@ namespace Organizer.ViewModels
             ClearDataCommand = new DelegateCommand(ClearData);
             SaveDatasCommand = new DelegateCommand(SaveDatas);
 
-            //PlotModel.InvalidatePlot(true);
         }
 
-        //public ObservableCollection<ContinentItem> Continents { get; set; }
-
-
-        private PlotModel modelP1;
-        public PlotModel PlotModel
+        private Bitmap _currentImage;
+        public Bitmap CurrentImage
         {
-            get; set;
+            get => _currentImage;
+            set => this.RaiseAndSetIfChanged(ref _currentImage, value);
         }
-
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -103,8 +73,14 @@ namespace Organizer.ViewModels
         public ICommand ClearDataCommand { get; }
         public ICommand SaveDatasCommand { get; }
 
-        private double _res1 = 0;
-        public double Res1
+        public void UpdatePlot()
+        {
+            _plot.UpdatePlot();
+            CurrentImage = new Bitmap(_path.ConfigDirectory + "/currentPie.png");
+        }
+
+        private double _resEat = 0;
+        public double ResEat
         {
             get => _items.Eat;
             set
@@ -113,13 +89,13 @@ namespace Organizer.ViewModels
                 {
                     _items.Eat = value;
                     OnPropertyChanged();
-                    this.RaiseAndSetIfChanged(ref _res1, value);
+                    this.RaiseAndSetIfChanged(ref _resEat, value);
                 }
             }
         }
 
-        private double _res2 = 0;
-        public double Res2
+        private double _resTransport = 0;
+        public double ResTransport
         {
             get => _items.Transport;
             set
@@ -128,13 +104,13 @@ namespace Organizer.ViewModels
                 {
                     _items.Transport = value;
                     OnPropertyChanged();
-                    this.RaiseAndSetIfChanged(ref _res2, value);
+                    this.RaiseAndSetIfChanged(ref _resTransport, value);
                 }
             }
         }
 
-        private double _res3 = 0;
-        public double Res3
+        private double _resHome = 0;
+        public double ResHome
         {
             get => _items.Home;
             set
@@ -143,13 +119,13 @@ namespace Organizer.ViewModels
                 {
                     _items.Home = value;
                     OnPropertyChanged();
-                    this.RaiseAndSetIfChanged(ref _res3, value);
+                    this.RaiseAndSetIfChanged(ref _resHome, value);
                 }
             }
         }
 
-        private double _res4 = 0;
-        public double Res4
+        private double _resServices = 0;
+        public double ResServices
         {
             get => _items.Services;
             set
@@ -158,13 +134,13 @@ namespace Organizer.ViewModels
                 {
                     _items.Services = value;
                     OnPropertyChanged();
-                    this.RaiseAndSetIfChanged(ref _res4, value);
+                    this.RaiseAndSetIfChanged(ref _resServices, value);
                 }
             }
         }
 
-        private double _res5 = 0;
-        public double Res5
+        private double _resRelax = 0;
+        public double ResRelax
         {
             get => _items.Relaxation;
             set
@@ -173,13 +149,13 @@ namespace Organizer.ViewModels
                 {
                     _items.Relaxation = value;
                     OnPropertyChanged();
-                    this.RaiseAndSetIfChanged(ref _res5, value);
+                    this.RaiseAndSetIfChanged(ref _resRelax, value);
                 }
             }
         }
 
-        private double _res6 = 0;
-        public double Res6
+        private double _resOther = 0;
+        public double ResOther
         {
             get => _items.Other;
             set
@@ -188,7 +164,7 @@ namespace Organizer.ViewModels
                 {
                     _items.Other = value;
                     OnPropertyChanged();
-                    this.RaiseAndSetIfChanged(ref _res6, value);
+                    this.RaiseAndSetIfChanged(ref _resOther, value);
                 }
             }
         }
@@ -311,42 +287,42 @@ namespace Organizer.ViewModels
 
         public void SumEat()
         {
-            Res1 += Eat;
+            ResEat += Eat;
             TotalMoney += Eat;
             Eat = 0;
         }
 
         public void SumTransport()
         {
-            Res2 += Transport;
+            ResTransport += Transport;
             TotalMoney += Transport;
             Transport = 0;
         }
 
         public void SumHome()
         {
-            Res3 += Home;
+            ResHome += Home;
             TotalMoney += Home;
             Home = 0;
         }
 
         public void SumServices()
         {
-            Res4 += Services;
+            ResServices += Services;
             TotalMoney += Services;
             Services = 0;
         }
 
         public void SumRelaxation()
         {
-            Res5 += Relaxation;
+            ResRelax += Relaxation;
             TotalMoney += Relaxation;
             Relaxation = 0;
         }
 
         public void SumOther()
         {
-            Res6 += Other;
+            ResOther += Other;
             TotalMoney += Other;
             Other = 0;
         }
@@ -364,12 +340,12 @@ namespace Organizer.ViewModels
         public void ClearData()
         {
             _items.ClearData();
-            Res1 = 0;
-            Res2 = 0;
-            Res3 = 0;
-            Res4 = 0;
-            Res5 = 0;
-            Res6 = 0;
+            ResEat = 0;
+            ResTransport = 0;
+            ResHome = 0;
+            ResServices = 0;
+            ResRelax = 0;
+            ResOther = 0;
             ResIncome = 0;
             TotalMoney = 0;
             OnPropertyChanged();
@@ -391,12 +367,12 @@ namespace Organizer.ViewModels
         //            ObservableCollection<ScoreForMonth> NewHistory = _history.CollectionHistory;
         //            ScoreForMonth ThisMonth = new ScoreForMonth();
 
-        //            NewHistory.Last().Eat = Res1;
-        //            NewHistory.Last().Transport = Res2;
-        //            NewHistory.Last().Home = Res3;
-        //            NewHistory.Last().Services = Res4;
-        //            NewHistory.Last().Relaxation = Res5;
-        //            NewHistory.Last().Other = Res6;
+        //            NewHistory.Last().Eat = ResEat;
+        //            NewHistory.Last().Transport = ResTransport;
+        //            NewHistory.Last().Home = ResHome;
+        //            NewHistory.Last().Services = ResServices;
+        //            NewHistory.Last().Relaxation = ResRelax;
+        //            NewHistory.Last().Other = ResOther;
         //            NewHistory.Last().Total = TotalMoney;
         //            NewHistory.Last().Data = dateNow;
 
@@ -408,12 +384,12 @@ namespace Organizer.ViewModels
         //            ObservableCollection<ScoreForMonth> NewHistory = _history.CollectionHistory;
         //            ScoreForMonth ThisMonth = new ScoreForMonth();
 
-        //            ThisMonth.Eat = Res1;
-        //            ThisMonth.Transport = Res2;
-        //            ThisMonth.Home = Res3;
-        //            ThisMonth.Services = Res4;
-        //            ThisMonth.Relaxation = Res5;
-        //            ThisMonth.Other = Res6;
+        //            ThisMonth.Eat = ResEat;
+        //            ThisMonth.Transport = ResTransport;
+        //            ThisMonth.Home = ResHome;
+        //            ThisMonth.Services = ResServices;
+        //            ThisMonth.Relaxation = ResRelax;
+        //            ThisMonth.Other = ResOther;
         //            ThisMonth.Total = TotalMoney;
         //            ThisMonth.Data = dateNow;
 
@@ -429,12 +405,12 @@ namespace Organizer.ViewModels
 
         //        ObservableCollection<ScoreForMonth> NewHistory = new ObservableCollection<ScoreForMonth>();
 
-        //        ThisMonth.Eat = Res1;
-        //        ThisMonth.Transport = Res2;
-        //        ThisMonth.Home = Res3;
-        //        ThisMonth.Services = Res4;
-        //        ThisMonth.Relaxation = Res5;
-        //        ThisMonth.Other = Res6;
+        //        ThisMonth.Eat = ResEat;
+        //        ThisMonth.Transport = ResTransport;
+        //        ThisMonth.Home = ResHome;
+        //        ThisMonth.Services = ResServices;
+        //        ThisMonth.Relaxation = ResRelax;
+        //        ThisMonth.Other = ResOther;
         //        ThisMonth.Total = TotalMoney;
         //        ThisMonth.Data = dateNow;
 
