@@ -39,6 +39,7 @@ namespace Organizer.Models
             pie.ShowPercentages = true;
             Plot.Style(dataBackground: Color.FromArgb(27, 27, 30));
             Plot.Legend();
+            //Plot.Legend(true, ScottPlot.Alignment.UpperRight);
 
             Plot.SaveFig(_path.ConfigDirectory + "/currentPie.png");
         }
