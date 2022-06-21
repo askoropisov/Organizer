@@ -10,5 +10,5 @@
             <vm:AboutViewModel/>
        </UserControl.DataContext>
 
-        <TextBlock>Info</TextBlock>
+    <TextBlock Text="{Binding Version}" Margin="0,0,0,50"/>
 </UserControl>
