@@ -156,7 +156,7 @@
 
         <Image Source="{Binding CurrentImage}" Grid.Row="5" Grid.Column="8"
                Grid.ColumnSpan="4" Grid.RowSpan="4"
-               Height="650" Width="650"/>
+               Height="450" Width="450"/>
 
     </Grid>
 

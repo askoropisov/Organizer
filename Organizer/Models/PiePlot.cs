@@ -1,6 +1,7 @@
 ﻿using Organizer.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,31 +15,29 @@ namespace Organizer.Models
 
         public double[] Values { get; set; }
         public ScottPlot.Plot Plot { get; set; }
-        public string[] labels = { "C#", "JAVA", "Python", "F#", "PHP" };
+        public string[] labels = { "Питание", "Транспорт", "Жилье", "Услуги", "Отдых", "Другое" };
 
         public PiePlot(PathsService paht)
         {
             _path = paht;
 
-            Plot = new ScottPlot.Plot(600, 400);
+            Plot = new ScottPlot.Plot(500, 400);
 
-            Values = new double[] { 778, 43, 283, 76, 184 };
+            Values = new double[] { 128, 43, 283, 76, 184, 50 };
             var pie = Plot.AddPie(Values);
             pie.SliceLabels = labels;
-            //pie.ShowLabels = true;
             pie.ShowPercentages = true;
+            Plot.Style(dataBackground: Color.FromArgb(27, 27, 30));
             Plot.Legend();
 
             Plot.SaveFig(_path.ConfigDirectory + "/currentPie.png");
         }
 
-        public void UpdatePlot()
+        public void UpdatePlot(double[] values)
         {
-            Values = new double[] { 90, 43, 213, 30, 24 };
-            var pie = Plot.AddPie(Values);
-            pie.SliceLabels = labels;
-            pie.ShowLabels = true;
+            var pie = Plot.AddPie(values);
             pie.ShowPercentages = true;
+            Plot.Style(dataBackground: Color.FromArgb(27, 27, 30));
             Plot.Legend();
 
             Plot.SaveFig(_path.ConfigDirectory + "/currentPie.png");

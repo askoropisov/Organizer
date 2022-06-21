@@ -35,6 +35,8 @@ namespace Organizer.ViewModels
             _path = path;
             _plot = plot;
 
+            UpdatePlot();
+
             CurrentImage = new Bitmap(_path.ConfigDirectory + "/currentPie.png");
 
             SumEatCommand = new DelegateCommand(SumEat);
@@ -49,18 +51,14 @@ namespace Organizer.ViewModels
 
         }
 
-        private Bitmap _currentImage;
-        public Bitmap CurrentImage
-        {
-            get => _currentImage;
-            set => this.RaiseAndSetIfChanged(ref _currentImage, value);
-        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public ObservableCollection<double> Values { get; set; } = new ObservableCollection<double>();
 
         public ICommand SumEatCommand { get; }
         public ICommand SumTransportCommand { get; }
@@ -73,10 +71,12 @@ namespace Organizer.ViewModels
         public ICommand ClearDataCommand { get; }
         public ICommand SaveDatasCommand { get; }
 
-        public void UpdatePlot()
+
+        private Bitmap _currentImage;
+        public Bitmap CurrentImage
         {
-            _plot.UpdatePlot();
-            CurrentImage = new Bitmap(_path.ConfigDirectory + "/currentPie.png");
+            get => _currentImage;
+            set => this.RaiseAndSetIfChanged(ref _currentImage, value);
         }
 
         private double _resEat = 0;
@@ -90,6 +90,7 @@ namespace Organizer.ViewModels
                     _items.Eat = value;
                     OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resEat, value);
+                    UpdatePlot();
                 }
             }
         }
@@ -105,6 +106,7 @@ namespace Organizer.ViewModels
                     _items.Transport = value;
                     OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resTransport, value);
+                    UpdatePlot();
                 }
             }
         }
@@ -120,6 +122,7 @@ namespace Organizer.ViewModels
                     _items.Home = value;
                     OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resHome, value);
+                    UpdatePlot();
                 }
             }
         }
@@ -135,6 +138,7 @@ namespace Organizer.ViewModels
                     _items.Services = value;
                     OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resServices, value);
+                    UpdatePlot();
                 }
             }
         }
@@ -150,6 +154,7 @@ namespace Organizer.ViewModels
                     _items.Relaxation = value;
                     OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resRelax, value);
+                    UpdatePlot();
                 }
             }
         }
@@ -165,6 +170,7 @@ namespace Organizer.ViewModels
                     _items.Other = value;
                     OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resOther, value);
+                    UpdatePlot();
                 }
             }
         }
@@ -349,6 +355,23 @@ namespace Organizer.ViewModels
             ResIncome = 0;
             TotalMoney = 0;
             OnPropertyChanged();
+        }
+
+        public void UpdatePlot()
+        {
+            CollectionRefresh();
+            _plot.UpdatePlot(Values.ToArray<double>());
+            CurrentImage = new Bitmap(_path.ConfigDirectory + "/currentPie.png");
+        }
+        public void CollectionRefresh()
+        {
+            Values.Clear();
+            Values.Add(ResEat);
+            Values.Add(ResTransport);
+            Values.Add(ResHome);
+            Values.Add(ResServices);
+            Values.Add(ResRelax);
+            Values.Add(ResOther);
         }
 
 
