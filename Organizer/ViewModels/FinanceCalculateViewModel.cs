@@ -186,6 +186,7 @@ namespace Organizer.ViewModels
                     _items.Income = value;
                     OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resIncome, value);
+                    Difference = ResIncome - TotalMoney;
                 }
             }
         }
@@ -266,6 +267,7 @@ namespace Organizer.ViewModels
                 {
                     _items.Total = value;
                     this.RaiseAndSetIfChanged(ref _totalMoney, value);
+                    Difference = ResIncome - TotalMoney;
                 }
             }
         }
@@ -279,6 +281,13 @@ namespace Organizer.ViewModels
                 if(value >= 0)
                     this.RaiseAndSetIfChanged(ref _income, value);
             }
+        }
+
+        private double _diff;
+        public double Difference
+        {
+            get => ResIncome-TotalMoney;
+            set => this.RaiseAndSetIfChanged(ref _diff, value);
         }
 
         private string _nowTime = DateTime.Now.ToShortDateString();
