@@ -7,7 +7,12 @@
     </Application.DataTemplates>
 
     <Application.Styles>
-        <StyleInclude Source="avares://Citrus.Avalonia/Sea.xaml"/>
-        <!--<FluentTheme Mode="Light"/>-->
+        <!--<StyleInclude Source="avares://Citrus.Avalonia/Sea.xaml"/>-->
+        <FluentTheme Mode="Dark"/>
     </Application.Styles>
+
+    <Application.Resources>
+        <!--первые 2 символа это прозрачность-->
+        <SolidColorBrush x:Key="SystemControlBackgroundAltHighBrush" Color="#FF2F4F4F"/>
+    </Application.Resources>
 </Application>

@@ -1,4 +1,5 @@
-﻿using Avalonia.Media.Imaging;
+﻿using Avalonia.Data;
+using Avalonia.Media.Imaging;
 using Organizer.Infrastructure.Services;
 using Organizer.Models;
 using Organizer.Services;
@@ -13,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 
 namespace Organizer.ViewModels
@@ -24,6 +26,8 @@ namespace Organizer.ViewModels
         private readonly HistoryService _history;
         private readonly PathsService _path;
         private readonly PiePlot _plot;
+
+        private readonly Regex regex = new Regex(@"\d+");
 
         public FinanceCalculateViewModel(ItemsService items,
                                          HistoryService history,
@@ -79,8 +83,8 @@ namespace Organizer.ViewModels
             set => this.RaiseAndSetIfChanged(ref _currentImage, value);
         }
 
-        private double _resEat = 0;
-        public double ResEat
+        private int _resEat = 0;
+        public int ResEat
         {
             get => _items.Eat;
             set
@@ -88,15 +92,15 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Eat = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resEat, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private double _resTransport = 0;
-        public double ResTransport
+        private int _resTransport = 0;
+        public int ResTransport
         {
             get => _items.Transport;
             set
@@ -104,15 +108,15 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Transport = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resTransport, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private double _resHome = 0;
-        public double ResHome
+        private int _resHome = 0;
+        public int ResHome
         {
             get => _items.Home;
             set
@@ -120,15 +124,15 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Home = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resHome, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private double _resServices = 0;
-        public double ResServices
+        private int _resServices = 0;
+        public int ResServices
         {
             get => _items.Services;
             set
@@ -136,15 +140,15 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Services = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resServices, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private double _resRelax = 0;
-        public double ResRelax
+        private int _resRelax = 0;
+        public int ResRelax
         {
             get => _items.Relaxation;
             set
@@ -152,15 +156,15 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Relaxation = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resRelax, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private double _resOther = 0;
-        public double ResOther
+        private int _resOther = 0;
+        public int ResOther
         {
             get => _items.Other;
             set
@@ -168,9 +172,9 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Other = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resOther, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -184,80 +188,165 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Income = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resIncome, value);
+                    Difference = ResIncome - TotalMoney;
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private double _eat = 0;
-        public double Eat
+        private int _eat = 0;
+        public string Eat
         {
-            get => _eat;
+            get => _eat.ToString();
             set
             {
-                if (value >= 0)
-                    this.RaiseAndSetIfChanged(ref _eat, value);
+                MatchCollection matches = regex.Matches(value);
+                if (matches.Count > 0)
+                {
+                    if (!int.TryParse(value, out int intValue))
+                    {
+                        throw new DataValidationException("Введите целое положительное число");
+                    }
+
+                    if (intValue < 0) throw new DataValidationException("Значение должно быть положительным");
+
+                    this.RaiseAndSetIfChanged(ref _eat, intValue);
+                }
+                else
+                {
+                    throw new DataValidationException("Введите целое положительное число");
+                }
             }
         }
 
-        private double _transport = 0;
-        public double Transport
+        private int _transport = 0;
+        public string Transport
         {
-            get => _transport;
+            get => _transport.ToString();
             set
             {
-                if (value >= 0)
-                    this.RaiseAndSetIfChanged(ref _transport, value);
+                MatchCollection matches = regex.Matches(value);
+                if (matches.Count > 0)
+                {
+                    if (!int.TryParse(value, out int intValue))
+                    {
+                        throw new DataValidationException("Введите целое положительное число");
+                    }
+
+                    if (intValue < 0) throw new DataValidationException("Значение должно быть положительным");
+
+                    this.RaiseAndSetIfChanged(ref _transport, intValue);
+                }
+                else
+                {
+                    throw new DataValidationException("Введите целое положительное число");
+                }
             }
         }
 
-        private double _home = 0;
-        public double Home
+        private int _home = 0;
+        public string Home
         {
-            get => _home;
+            get => _home.ToString();
             set
             {
-                if (value >= 0)
-                    this.RaiseAndSetIfChanged(ref _home, value);
+                MatchCollection matches = regex.Matches(value);
+                if (matches.Count > 0)
+                {
+                    if (!int.TryParse(value, out int intValue))
+                    {
+                        throw new DataValidationException("Введите целое положительное число");
+                    }
+
+                    if (intValue < 0) throw new DataValidationException("Значение должно быть положительным");
+
+                    this.RaiseAndSetIfChanged(ref _home, intValue);
+                }
+                else
+                {
+                    throw new DataValidationException("Введите целое положительное число");
+                }
             }
         }
 
-        private double _services = 0;
-        public double Services
+        private int _services = 0;
+        public string Services
         {
-            get => _services;
+            get => _services.ToString();
             set
             {
-                if (value >= 0)
-                    this.RaiseAndSetIfChanged(ref _services, value);
+                MatchCollection matches = regex.Matches(value);
+                if (matches.Count > 0)
+                {
+                    if (!int.TryParse(value, out int intValue))
+                    {
+                        throw new DataValidationException("Введите целое положительное число");
+                    }
+
+                    if (intValue < 0) throw new DataValidationException("Значение должно быть положительным");
+
+                    this.RaiseAndSetIfChanged(ref _services, intValue);
+                }
+                else
+                {
+                    throw new DataValidationException("Введите целое положительное число");
+                }
             }
         }
 
-        private double _relaxation = 0;
-        public double Relaxation
+        private int _relaxation = 0;
+        public string Relaxation
         {
-            get => _relaxation;
+            get => _relaxation.ToString();
             set
             {
-                if (value >= 0)
-                    this.RaiseAndSetIfChanged(ref _relaxation, value);
+                MatchCollection matches = regex.Matches(value);
+                if (matches.Count > 0)
+                {
+                    if (!int.TryParse(value, out int intValue))
+                    {
+                        throw new DataValidationException("Введите целое положительное число");
+                    }
+
+                    if (intValue < 0) throw new DataValidationException("Значение должно быть положительным");
+
+                    this.RaiseAndSetIfChanged(ref _relaxation, intValue);
+                }
+                else
+                {
+                    throw new DataValidationException("Введите целое положительное число");
+                }
             }
         }
 
-        private double _other = 0;
-        public double Other
+        private int _other = 0;
+        public string Other
         {
-            get => _other;
+            get => _other.ToString();
             set
             {
-                if (value >= 0)
-                    this.RaiseAndSetIfChanged(ref _other, value);
+                MatchCollection matches = regex.Matches(value);
+                if (matches.Count > 0)
+                {
+                    if (!int.TryParse(value, out int intValue))
+                    {
+                        throw new DataValidationException("Введите целое положительное число");
+                    }
+
+                    if (intValue < 0) throw new DataValidationException("Значение должно быть положительным");
+
+                    this.RaiseAndSetIfChanged(ref _other, intValue);
+                }
+                else
+                {
+                    throw new DataValidationException("Введите целое положительное число");
+                }
             }
         }
 
-        private double _totalMoney = 0;
-        public double TotalMoney
+        private int _totalMoney = 0;
+        public int TotalMoney
         {
             get => _items.Total;
             set
@@ -266,19 +355,41 @@ namespace Organizer.ViewModels
                 {
                     _items.Total = value;
                     this.RaiseAndSetIfChanged(ref _totalMoney, value);
+                    Difference = ResIncome - TotalMoney;
                 }
             }
         }
 
         private int _income = 0;
-        public int Income
+        public string Income
         {
-            get => _income;
+            get => _income.ToString();
             set
             {
-                if(value >= 0)
-                    this.RaiseAndSetIfChanged(ref _income, value);
+                MatchCollection matches = regex.Matches(value);
+                if (matches.Count > 0)
+                {
+                    if (!int.TryParse(value, out int intValue))
+                    {
+                        throw new DataValidationException("Введите целое положительное число");
+                    }
+
+                    if (intValue < 0) throw new DataValidationException("Значение должно быть положительным");
+
+                    this.RaiseAndSetIfChanged(ref _income, intValue);
+                }
+                else
+                {
+                    throw new DataValidationException("Введите целое положительное число");
+                }
             }
+        }
+
+        private int _diff;
+        public int Difference
+        {
+            get => ResIncome-TotalMoney;
+            set => this.RaiseAndSetIfChanged(ref _diff, value);
         }
 
         private string _nowTime = DateTime.Now.ToShortDateString();
@@ -293,50 +404,50 @@ namespace Organizer.ViewModels
 
         public void SumEat()
         {
-            ResEat += Eat;
-            TotalMoney += Eat;
-            Eat = 0;
+            ResEat += Convert.ToInt32(Eat);
+            TotalMoney += Convert.ToInt32(Eat);
+            Eat = "0";
         }
 
         public void SumTransport()
         {
-            ResTransport += Transport;
-            TotalMoney += Transport;
-            Transport = 0;
+            ResTransport += Convert.ToInt32(Transport);
+            TotalMoney += Convert.ToInt32(Transport);
+            Transport = string.Empty;
         }
 
         public void SumHome()
         {
-            ResHome += Home;
-            TotalMoney += Home;
-            Home = 0;
+            ResHome += Convert.ToInt32(Home);
+            TotalMoney += Convert.ToInt32(Home);
+            Home = string.Empty;
         }
 
         public void SumServices()
         {
-            ResServices += Services;
-            TotalMoney += Services;
-            Services = 0;
+            ResServices += Convert.ToInt32(Services);
+            TotalMoney += Convert.ToInt32(Services);
+            Services = string.Empty;
         }
 
         public void SumRelaxation()
         {
-            ResRelax += Relaxation;
-            TotalMoney += Relaxation;
-            Relaxation = 0;
+            ResRelax += Convert.ToInt32(Relaxation);
+            TotalMoney += Convert.ToInt32(Relaxation);
+            Relaxation = string.Empty;
         }
 
         public void SumOther()
         {
-            ResOther += Other;
-            TotalMoney += Other;
-            Other = 0;
+            ResOther += Convert.ToInt32(Other);
+            TotalMoney += Convert.ToInt32(Other);
+            Other = string.Empty;
         }
 
         public void SumIncome()
         {
-            ResIncome += Income;
-            Income = 0;
+            ResIncome += Convert.ToInt32(Income);
+            Income = string.Empty;
         }
 
 
@@ -345,7 +456,6 @@ namespace Organizer.ViewModels
         /// </summary>
         public void ClearData()
         {
-            _items.ClearData();
             ResEat = 0;
             ResTransport = 0;
             ResHome = 0;
@@ -355,6 +465,7 @@ namespace Organizer.ViewModels
             ResIncome = 0;
             TotalMoney = 0;
             OnPropertyChanged();
+            _items.ClearTailJson("items.json");
         }
 
         public void UpdatePlot()
@@ -363,6 +474,7 @@ namespace Organizer.ViewModels
             _plot.UpdatePlot(Values.ToArray<double>());
             CurrentImage = new Bitmap(_path.ConfigDirectory + "/currentPie.png");
         }
+
         public void CollectionRefresh()
         {
             Values.Clear();

@@ -14,7 +14,7 @@
     <UserControl.Styles>
         <Style Selector="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FontSize" Value="20"/>
         </Style>
         <Style Selector="TextBox">
@@ -23,12 +23,18 @@
             <Setter Property="FontSize" Value="20"/>
         </Style>
         <Style Selector="Button">
-            <Setter Property="Width" Value="50"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="ToolTip.Tip" Value="Зафиксировать"/>
         </Style>
     </UserControl.Styles>
 
-    <Grid ShowGridLines="True">
+    <Grid ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -72,41 +78,76 @@
                    VerticalAlignment="Center"
                    Text="{Binding NowTime}"></TextBlock>
 
-        <TextBlock Grid.Column="1" Grid.Row="2">test1</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="2">Питание</TextBlock>
         <TextBox  Grid.Column="2" Grid.Row="2"
-                  Text="{Binding Eat}"></TextBox>
+                  Text="{Binding Eat}">
+            <TextBox.Styles>
+                <Style Selector="DataValidationErrors">
+                    <Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}" />
+                    <Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+                </Style>
+            </TextBox.Styles>
+        </TextBox>
         <Button Grid.Column="3" Grid.Row="2" 
                 Command="{Binding SumEatCommand}">✓</Button>
         <TextBlock  Grid.Column="5" Grid.Row="2" 
                     Text="{Binding ResEat}"></TextBlock>
 
-        <TextBlock Grid.Column="1" Grid.Row="4">test2</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="4">Транспорт</TextBlock>
         <TextBox  Grid.Column="2" Grid.Row="4"
-                  Text="{Binding Transport}"></TextBox>
+                  Text="{Binding Transport}">
+            <TextBox.Styles>
+                <Style Selector="DataValidationErrors">
+                    <Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}" />
+                    <Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+                </Style>
+            </TextBox.Styles>
+        </TextBox>
         <Button Grid.Column="3" Grid.Row="4"
                 Command="{Binding SumTransportCommand}">✓</Button>
         <TextBlock  Grid.Column="5" Grid.Row="4"
                     Text="{Binding ResTransport}"></TextBlock>
 
-        <TextBlock Grid.Column="1" Grid.Row="6">test3</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="6">Жилье</TextBlock>
         <TextBox  Grid.Column="2" Grid.Row="6"
-                  Text="{Binding Home}"></TextBox>
+                  Text="{Binding Home}">
+            <TextBox.Styles>
+                <Style Selector="DataValidationErrors">
+                    <Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}" />
+                    <Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+                </Style>
+            </TextBox.Styles>
+        </TextBox>
         <Button Grid.Column="3" Grid.Row="6"
                 Command="{Binding SumHomeCommand}">✓</Button>
         <TextBlock  Grid.Column="5" Grid.Row="6"
                     Text="{Binding ResHome}"></TextBlock>
 
-        <TextBlock Grid.Column="1" Grid.Row="8">test4</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="8">Услуги</TextBlock>
         <TextBox  Grid.Column="2" Grid.Row="8"
-                  Text="{Binding Services}"></TextBox>
+                  Text="{Binding Services}">
+            <TextBox.Styles>
+                <Style Selector="DataValidationErrors">
+                    <Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}" />
+                    <Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+                </Style>
+            </TextBox.Styles>
+        </TextBox>
         <Button Grid.Column="3" Grid.Row="8"
                 Command="{Binding SumServicesCommand}">✓</Button>
         <TextBlock  Grid.Column="5" Grid.Row="8"
                     Text="{Binding ResServices}"></TextBlock>
 
-        <TextBlock Grid.Column="1" Grid.Row="10">test5</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="10">Отдых</TextBlock>
         <TextBox  Grid.Column="2" Grid.Row="10"
-                  Text="{Binding Relaxation}"></TextBox>
+                  Text="{Binding Relaxation}">
+            <TextBox.Styles>
+                <Style Selector="DataValidationErrors">
+                    <Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}" />
+                    <Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+                </Style>
+            </TextBox.Styles>
+        </TextBox>
         <Button Grid.Column="3" Grid.Row="10"
                 Command="{Binding SumRelaxationCommand}">✓</Button>
         <TextBlock  Grid.Column="5" Grid.Row="10"
@@ -114,27 +155,52 @@
 
         <TextBlock Grid.Column="1" Grid.Row="12">Прочее</TextBlock>
         <TextBox  Grid.Column="2" Grid.Row="12"
-                  Text="{Binding Other}"></TextBox>
+                  Text="{Binding Other}">
+            <TextBox.Styles>
+                <Style Selector="DataValidationErrors">
+                    <Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}" />
+                    <Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+                </Style>
+            </TextBox.Styles>
+        </TextBox>
         <Button Grid.Column="3" Grid.Row="12"
                 Command="{Binding SumOtherCommand}">✓</Button>
         <TextBlock  Grid.Column="5" Grid.Row="12"
                     Text="{Binding ResOther}"></TextBlock>
 
 
-        <TextBlock Grid.Column="8" Grid.Row="12">Income</TextBlock>
+        <TextBlock Grid.Column="8" Grid.Row="12">Доход</TextBlock>
         <TextBox  Grid.Column="9" Grid.Row="12"
-                  Text="{Binding Income}"></TextBox>
+                  Text="{Binding Income}">
+            <TextBox.Styles>
+                <Style Selector="DataValidationErrors">
+                    <Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}" />
+                    <Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+                </Style>
+            </TextBox.Styles>
+        </TextBox>
         <Button Grid.Column="10" Grid.Row="12"
                 Command="{Binding SumIncomeCommand}">✓</Button>
         <TextBlock  Grid.Column="12" Grid.Row="12"
-                    Text="{Binding ResIncome}"></TextBlock>
+                    Text="{Binding ResIncome}"
+                    Foreground="LawnGreen"
+                    FontSize="24"></TextBlock>
 
 
-        <TextBlock Grid.Column="4" Grid.Row="14"
+        <TextBlock Grid.Column="1" Grid.Row="14"
                    FontSize="20" VerticalAlignment="Center">Итогo:</TextBlock>
 
-        <TextBlock Grid.Column="9" Grid.Row="14"
-                   Text="{Binding TotalMoney}"></TextBlock>
+        <TextBlock Grid.Column="5" Grid.Row="14"
+                   Text="{Binding TotalMoney}"
+                   Foreground="Crimson"
+                   FontSize="24"></TextBlock>
+
+        <TextBlock Grid.Column="8" Grid.Row="14"
+        FontSize="20" VerticalAlignment="Center">Разница:</TextBlock>
+
+        <TextBlock Grid.Column="12" Grid.Row="14"
+                   Text="{Binding Difference}"
+                   FontSize="24"></TextBlock>
 
         <Button  Grid.Column="5" Grid.ColumnSpan="2"
                  Grid.Row="16" Grid.RowSpan="2"
@@ -154,7 +220,7 @@
                 Command="{Binding SaveDatasCommand}"
                 Content="Сохранить"/>
 
-        <Image Source="{Binding CurrentImage}" Grid.Row="5" Grid.Column="8"
+        <Image Source="{Binding CurrentImage}" Grid.Row="4" Grid.Column="8"
                Grid.ColumnSpan="4" Grid.RowSpan="4"
                Height="450" Width="450"/>
 

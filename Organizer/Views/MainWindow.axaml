@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
         x:Class="Organizer.Views.MainWindow"
         Icon="/Assets/PigMoney.ico"
-        Title="Organizer">
+        Title="Финансовый помощник">
 
      <!--<Design.DataContext>
         <vm:MainWindowViewModel/>

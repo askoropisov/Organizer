@@ -10,14 +10,13 @@ namespace Organizer.Models
 {
     public class Items
     {
-        public double Total { get; set; }
-        public double Eat { get; set; }
-        public double Transport { get; set; }
-        public double Home { get; set; }
-        public double Services { get; set; }
-        public double Relaxation { get; set; }
-        public double Other { get; set; }
-
+        public int Total { get; set; }
+        public int Eat { get; set; }
+        public int Transport { get; set; }
+        public int Home { get; set; }
+        public int Services { get; set; }
+        public int Relaxation { get; set; }
+        public int Other { get; set; }
         public int Income { get; set; }
     }
 }

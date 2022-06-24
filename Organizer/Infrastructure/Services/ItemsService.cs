@@ -4,6 +4,7 @@ using Organizer.Models.Configs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -41,7 +42,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Eat
+        public int Eat
         {
             get => Items.Eat;
             set
@@ -51,7 +52,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Home
+        public int Home
         {
             get => Items.Home;
             set
@@ -61,7 +62,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Services
+        public int Services
         {
             get => Items.Services;
             set
@@ -71,7 +72,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Relaxation
+        public int Relaxation
         {
             get => Items.Relaxation;
             set
@@ -81,7 +82,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Transport
+        public int Transport
         {
             get => Items.Transport;
             set
@@ -91,7 +92,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Other
+        public int Other
         {
             get => Items.Other;
             set
@@ -111,7 +112,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Total
+        public int Total
         {
             get => Items.Total;
             set
@@ -123,15 +124,31 @@ namespace Organizer.Services
 
         public void ClearData()
         {
-            Eat = 0;
-            Home = 0;
-            Transport = 0;
-            Services = 0;
-            Relaxation = 0;
-            Other = 0;
-            Total = 0;
-            Income = 0;
-            OnPropertyChanged();
+            Items.Eat = 0;
+            Items.Home = 0;
+            Items.Transport = 0;
+            Items.Services = 0;
+            Items.Relaxation = 0;
+            Items.Other = 0;
+            Items.Total = 0;
+            Items.Income = 0;
+            //OnPropertyChanged();
+        }
+
+
+        //Обрезает лишние закрывающие скобки в JSON файле
+        public void ClearTailJson(string nameFile)
+        {
+            char symbol = '}';
+            string path = Path.Combine(_paths.ConfigDirectory, nameFile).ToString();
+
+            FileInfo fileInf = new FileInfo(path);
+            string fileJSON = File.ReadAllText(path);
+
+            int index = fileJSON.IndexOf(symbol);
+            fileJSON = fileJSON.Substring(0, index+1);
+
+            File.WriteAllText(path, fileJSON);
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
