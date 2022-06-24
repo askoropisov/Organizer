@@ -14,7 +14,7 @@
     <UserControl.Styles>
         <Style Selector="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FontSize" Value="20"/>
         </Style>
         <Style Selector="TextBox">
@@ -143,7 +143,7 @@
 
         <TextBlock Grid.Column="5" Grid.Row="14"
                    Text="{Binding TotalMoney}"
-                   Foreground="Firebrick"
+                   Foreground="Crimson"
                    FontSize="24"></TextBlock>
 
         <TextBlock Grid.Column="8" Grid.Row="14"

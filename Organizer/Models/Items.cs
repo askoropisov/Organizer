@@ -17,7 +17,6 @@ namespace Organizer.Models
         public double Services { get; set; }
         public double Relaxation { get; set; }
         public double Other { get; set; }
-
-        public int Income { get; set; }
+        public double Income { get; set; }
     }
 }

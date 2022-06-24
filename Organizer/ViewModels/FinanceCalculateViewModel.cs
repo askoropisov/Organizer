@@ -88,9 +88,9 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Eat = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resEat, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -104,9 +104,9 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Transport = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resTransport, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -120,9 +120,9 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Home = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resHome, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -136,9 +136,9 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Services = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resServices, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -152,9 +152,9 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Relaxation = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resRelax, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -168,15 +168,15 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Other = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resOther, value);
                     UpdatePlot();
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private int _resIncome = 0;
-        public int ResIncome
+        private double _resIncome = 0;
+        public double ResIncome
         {
             get => _items.Income;
             set
@@ -184,9 +184,9 @@ namespace Organizer.ViewModels
                 if (value >= 0)
                 {
                     _items.Income = value;
-                    OnPropertyChanged();
                     this.RaiseAndSetIfChanged(ref _resIncome, value);
                     Difference = ResIncome - TotalMoney;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -272,13 +272,13 @@ namespace Organizer.ViewModels
             }
         }
 
-        private int _income = 0;
-        public int Income
+        private double _income = 0;
+        public double Income
         {
             get => _income;
             set
             {
-                if(value >= 0)
+                if (value >= 0)
                     this.RaiseAndSetIfChanged(ref _income, value);
             }
         }
@@ -354,7 +354,6 @@ namespace Organizer.ViewModels
         /// </summary>
         public void ClearData()
         {
-            _items.ClearData();
             ResEat = 0;
             ResTransport = 0;
             ResHome = 0;
@@ -364,6 +363,7 @@ namespace Organizer.ViewModels
             ResIncome = 0;
             TotalMoney = 0;
             OnPropertyChanged();
+            _items.ClearTailJson("items.json");
         }
 
         public void UpdatePlot()
@@ -372,6 +372,7 @@ namespace Organizer.ViewModels
             _plot.UpdatePlot(Values.ToArray<double>());
             CurrentImage = new Bitmap(_path.ConfigDirectory + "/currentPie.png");
         }
+
         public void CollectionRefresh()
         {
             Values.Clear();

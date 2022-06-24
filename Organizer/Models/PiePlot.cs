@@ -27,7 +27,7 @@ namespace Organizer.Models
             var pie = Plot.AddPie(Values);
             pie.SliceLabels = labels;
             pie.ShowPercentages = true;
-            Plot.Style(dataBackground: Color.FromArgb(27, 27, 30));
+            Plot.Style(dataBackground: Color.DarkSlateGray);
             Plot.Legend();
 
             Plot.SaveFig(_path.ConfigDirectory + "/currentPie.png");
