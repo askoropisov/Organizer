@@ -42,7 +42,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Eat
+        public int Eat
         {
             get => Items.Eat;
             set
@@ -52,7 +52,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Home
+        public int Home
         {
             get => Items.Home;
             set
@@ -62,7 +62,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Services
+        public int Services
         {
             get => Items.Services;
             set
@@ -72,7 +72,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Relaxation
+        public int Relaxation
         {
             get => Items.Relaxation;
             set
@@ -82,7 +82,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Transport
+        public int Transport
         {
             get => Items.Transport;
             set
@@ -92,7 +92,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Other
+        public int Other
         {
             get => Items.Other;
             set
@@ -102,7 +102,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Income
+        public int Income
         {
             get => Items.Income;
             set
@@ -112,7 +112,7 @@ namespace Organizer.Services
             }
         }
 
-        public double Total
+        public int Total
         {
             get => Items.Total;
             set
