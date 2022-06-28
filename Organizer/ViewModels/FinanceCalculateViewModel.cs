@@ -413,41 +413,41 @@ namespace Organizer.ViewModels
         {
             ResTransport += Convert.ToInt32(Transport);
             TotalMoney += Convert.ToInt32(Transport);
-            Transport = string.Empty;
+            Transport = "0";
         }
 
         public void SumHome()
         {
             ResHome += Convert.ToInt32(Home);
             TotalMoney += Convert.ToInt32(Home);
-            Home = string.Empty;
+            Home = "0";
         }
 
         public void SumServices()
         {
             ResServices += Convert.ToInt32(Services);
             TotalMoney += Convert.ToInt32(Services);
-            Services = string.Empty;
+            Services = "0";
         }
 
         public void SumRelaxation()
         {
             ResRelax += Convert.ToInt32(Relaxation);
             TotalMoney += Convert.ToInt32(Relaxation);
-            Relaxation = string.Empty;
+            Relaxation = "0";
         }
 
         public void SumOther()
         {
             ResOther += Convert.ToInt32(Other);
             TotalMoney += Convert.ToInt32(Other);
-            Other = string.Empty;
+            Other = "0";
         }
 
         public void SumIncome()
         {
             ResIncome += Convert.ToInt32(Income);
-            Income = string.Empty;
+            Income = "0";
         }
 
 
