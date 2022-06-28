@@ -22,20 +22,20 @@ namespace Organizer.ViewModels
 
     public class FinanceCalculateViewModel : ViewModelBase
     {
+        private readonly Func<DataContext> _dataContextFactory;
         private readonly ItemsService _items;
-        private readonly HistoryService _history;
         private readonly PathsService _path;
         private readonly PiePlot _plot;
 
         private readonly Regex regex = new Regex(@"\d+");
 
-        public FinanceCalculateViewModel(ItemsService items,
-                                         HistoryService history,
+        public FinanceCalculateViewModel(Func<DataContext> dataContextFactory,
+                                         ItemsService items,
                                          PathsService path,
                                          PiePlot plot)
         {
+            _dataContextFactory = dataContextFactory;
             _items = items;
-            _history = history;
             _path = path;
             _plot = plot;
 
@@ -51,8 +51,7 @@ namespace Organizer.ViewModels
             SumOtherCommand = new DelegateCommand(SumOther);
             SumIncomeCommand = new DelegateCommand(SumIncome);
             ClearDataCommand = new DelegateCommand(ClearData);
-            SaveDatasCommand = new DelegateCommand(SaveDatas);
-
+            SaveDatasCommand = new DelegateCommand(SaveDatasAsync);
         }
 
 
@@ -490,69 +489,23 @@ namespace Organizer.ViewModels
         /// <summary>
         /// явно сделано слишком сложно
         /// </summary>
-        public void SaveDatas()
+        public async void SaveDatasAsync()
         {
-        //    try
-        //    {
-        //        string? last_date = _history.CollectionHistory.Last().Data;
-        //        string dateNow = DateTime.Now.Month.ToString() + " " + DateTime.Now.Year.ToString();
+            var record = new RecordMonth();
+            record.Data = NowTime;
+            record.Eat = ResEat;
+            record.Home = ResHome;
+            record.Transport = ResTransport;
+            record.Services = ResServices;
+            record.Relaxation = ResRelax;
+            record.Other = ResOther;
+            record.Total = TotalMoney;
+            record.Income = ResIncome;
+            record.Difference = Difference;
 
-        //        if (dateNow == last_date)
-        //        {
-        //            ObservableCollection<ScoreForMonth> NewHistory = _history.CollectionHistory;
-        //            ScoreForMonth ThisMonth = new ScoreForMonth();
-
-        //            NewHistory.Last().Eat = ResEat;
-        //            NewHistory.Last().Transport = ResTransport;
-        //            NewHistory.Last().Home = ResHome;
-        //            NewHistory.Last().Services = ResServices;
-        //            NewHistory.Last().Relaxation = ResRelax;
-        //            NewHistory.Last().Other = ResOther;
-        //            NewHistory.Last().Total = TotalMoney;
-        //            NewHistory.Last().Data = dateNow;
-
-        //            _history.CollectionHistory = NewHistory;
-        //            OnPropertyChanged();
-        //        }
-        //        else
-        //        {
-        //            ObservableCollection<ScoreForMonth> NewHistory = _history.CollectionHistory;
-        //            ScoreForMonth ThisMonth = new ScoreForMonth();
-
-        //            ThisMonth.Eat = ResEat;
-        //            ThisMonth.Transport = ResTransport;
-        //            ThisMonth.Home = ResHome;
-        //            ThisMonth.Services = ResServices;
-        //            ThisMonth.Relaxation = ResRelax;
-        //            ThisMonth.Other = ResOther;
-        //            ThisMonth.Total = TotalMoney;
-        //            ThisMonth.Data = dateNow;
-
-        //            NewHistory.Add(ThisMonth);
-        //            _history.CollectionHistory = NewHistory;
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        string dateNow = DateTime.Now.Month.ToString() + " " + DateTime.Now.Year.ToString();
-        //        ScoreForMonth ThisMonth = new ScoreForMonth();
-
-        //        ObservableCollection<ScoreForMonth> NewHistory = new ObservableCollection<ScoreForMonth>();
-
-        //        ThisMonth.Eat = ResEat;
-        //        ThisMonth.Transport = ResTransport;
-        //        ThisMonth.Home = ResHome;
-        //        ThisMonth.Services = ResServices;
-        //        ThisMonth.Relaxation = ResRelax;
-        //        ThisMonth.Other = ResOther;
-        //        ThisMonth.Total = TotalMoney;
-        //        ThisMonth.Data = dateNow;
-
-        //        NewHistory.Add(ThisMonth);
-        //        _history.CollectionHistory = NewHistory;
-        //        OnPropertyChanged();
-        //    }
+            using var db = _dataContextFactory();
+            db.RecordMonths.Add(record);
+            await db.SaveChangesAsync();
         }
     }
 }

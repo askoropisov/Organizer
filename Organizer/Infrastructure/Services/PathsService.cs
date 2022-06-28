@@ -26,7 +26,6 @@ namespace Organizer.Infrastructure.Services
 
         public string ConfigDirectory => _configDirectory;
         public string LogDirectory => _logDirectory;
-        //public string DbDirectory => _rootDirectory;
-
+        public string DbDirectory => _rootDirectory;
     }
 }
