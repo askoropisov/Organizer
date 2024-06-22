@@ -7,6 +7,7 @@ using Organizer.Models;
 using Organizer.Services;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -18,6 +19,7 @@ namespace Organizer.ViewModels
     public class FinanceCalculateViewModel : ViewModelBase, INavigationPage
     {
         private readonly Func<DataContext> _dataContextFactory;
+        private readonly DialogService _dialogService;
         private readonly ItemsService _items;
         private readonly PathsService _path;
         private readonly PiePlot _plot;
@@ -25,23 +27,19 @@ namespace Organizer.ViewModels
         private readonly Regex regex = new Regex(@"\d+");
 
         public FinanceCalculateViewModel(Func<DataContext> dataContextFactory,
+                                         DialogService dialogService,
                                          ItemsService items,
                                          PathsService path,
                                          PiePlot plot)
         {
             _dataContextFactory = dataContextFactory;
+            _dialogService = dialogService;
             _items = items;
             _path = path;
             _plot = plot;
-
-            //Init();
-
-
-            //CurrentImage = new Bitmap(_path.ConfigDirectory + "/currentPie.png");
-
         }
 
-        ObservableCollection<string> Categories = new ObservableCollection<string>();
+        ObservableCollection<string> Categories { get; set; } = new ObservableCollection<string>();
 
         private string _selCat;
         public string SelectedCategory
@@ -83,17 +81,36 @@ namespace Organizer.ViewModels
             }
         }
 
-        public async Task AddValue()
+        public void AddValue()
         {
+            if (Value <= 0)
+            {
+                _dialogService.ShowMessage("Укажите корректную сумму");
+                return;
+            }
+            if (string.IsNullOrEmpty(SelectedCategory))
+            {
+                _dialogService.ShowMessage("Выберите одну из категорий", "Если список категорий пуст, то добавьте необходимый пунк на вкладке \"Настройки\"");
+                return;
+            }
+
             Expense expense = new Expense();
-            if (SelectedCategory != null && SelectedCategory != string.Empty)
+            if (SelectedCategory != string.Empty)
             {
                 expense.Category = SelectedCategory;
                 expense.Description = Description;
+                expense.Date = DateTime.Now;
                 expense.Value = Value;
+
+                using var db = _dataContextFactory();
+                db.Expenses.Add(expense);
+                db.SaveChanges();
+
+                Value = 0;
+                Description = string.Empty;
+                SelectedCategory = string.Empty;
             }
         }
-
 
 
         private Bitmap _currentImage;

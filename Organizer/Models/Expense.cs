@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Organizer.Models
 {
@@ -9,5 +10,6 @@ namespace Organizer.Models
         public string? Category { get; set; }
         public string? Description { get; set; }
         public int Value { get; set; }
+        public DateTime Date { get; set; }
     }
 }
