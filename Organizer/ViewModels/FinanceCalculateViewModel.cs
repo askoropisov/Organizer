@@ -61,13 +61,23 @@ namespace Organizer.ViewModels
             }
         }
 
-        private int _summ;
-        public int Summ
+        private int _summM;
+        public int SummMonth
         {
-            get => _summ;
+            get => _summM;
             set
             {
-                this.RaiseAndSetIfChanged(ref _summ, value);
+                this.RaiseAndSetIfChanged(ref _summM, value);
+            }
+        }
+
+        private int _summD;
+        public int SummDay
+        {
+            get => _summD;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _summD, value);
             }
         }
 
@@ -81,7 +91,7 @@ namespace Organizer.ViewModels
             }
         }
 
-        public void AddValue()
+        public async Task AddValue()
         {
             if (Value <= 0)
             {
@@ -94,13 +104,9 @@ namespace Organizer.ViewModels
                 return;
             }
 
-            Expense expense = new Expense();
             if (SelectedCategory != string.Empty)
             {
-                expense.Category = SelectedCategory;
-                expense.Description = Description;
-                expense.Date = DateTime.Now;
-                expense.Value = Value;
+                Expense expense = new Expense(SelectedCategory, Description, Value, DateTime.Now);
 
                 using var db = _dataContextFactory();
                 db.Expenses.Add(expense);
@@ -109,6 +115,8 @@ namespace Organizer.ViewModels
                 Value = 0;
                 Description = string.Empty;
                 SelectedCategory = string.Empty;
+
+                await UpdateSumm();
             }
         }
 
@@ -120,26 +128,44 @@ namespace Organizer.ViewModels
             set => this.RaiseAndSetIfChanged(ref _currentImage, value);
         }
 
+        public async Task UpdateSumm()
+        {
+            using var context = _dataContextFactory();
+            int CountRecExp = context.Categories.Count();
+            var exps = await (from exp in context.Expenses
+                              where exp.Date.Year == DateTime.Now.Year && exp.Date.Month == DateTime.Now.Month
+                              select new Expense(exp.Category, exp.Description, exp.Value, exp.Date))
+                              .Take(CountRecExp)
+                              .ToListAsync();
+            SummMonth = 0;
+            foreach (var item in exps)
+            {
+                SummMonth += item.Value;
+                if(item.Date.Day == DateTime.Now.Day)
+                {
+                    SummDay += item.Value;
+                }
+            }
+        }
+
         public async Task Init()
         {
             using var context = _dataContextFactory();
-            int CountRec = context.Categories.Count();
+            int CountRecCat = context.Categories.Count();
             var recItems = await (from cat in context.Categories
                                   select new Category(cat.Name))
-                            .Take(CountRec)
-                            .ToListAsync();
+                                  .Take(CountRecCat)
+                                  .ToListAsync();
 
             Categories.Clear();
-
             foreach (var item in recItems)
             {
                 Categories.Add(item.Name);
             }
+
+            await UpdateSumm();
         }
 
-        /// <summary>
-        /// явно сделано слишком сложно
-        /// </summary>
         public async void SaveDatasAsync()
         {
 

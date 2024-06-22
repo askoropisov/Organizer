@@ -11,5 +11,13 @@ namespace Organizer.Models
         public string? Description { get; set; }
         public int Value { get; set; }
         public DateTime Date { get; set; }
+
+        public Expense(string? category, string? description, int value, DateTime date)
+        {
+            Category = category;
+            Description = description;
+            Value = value;
+            Date = date;
+        }
     }
 }

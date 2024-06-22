@@ -32,10 +32,11 @@
     </UserControl.Styles>
 
 
-    <Grid ColumnDefinitions="*,*">
+    <Grid ColumnDefinitions="*,*" RowDefinitions="8*, *, *">
         <StackPanel Orientation="Vertical" Spacing="20"
-                    Grid.Column="0" HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Grid.Row="0" Grid.Column="0">
 
             <StackPanel Orientation="Horizontal" Spacing="10"
                         HorizontalAlignment="Center">
@@ -47,8 +48,9 @@
             <TextBlock Text="Категория"/>
 
             <ComboBox Items="{Binding Categories}" Width="300"
-                      HorizontalAlignment="Center" PlaceholderText="Веберите нужный пункт"
                       HorizontalContentAlignment="Center"
+                      HorizontalAlignment="Center"
+                      PlaceholderText="Выберите нужный пункт"
                       SelectedItem="{Binding SelectedCategory}"/>
 
             <TextBlock Text="Описание"/>
@@ -58,7 +60,24 @@
             <Button Command="{Binding AddValue}"
                     Content="Добавить"
                     ToolTip.Tip="Добавить указанную сумму к общим расходам"/>
-            
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="10"
+                    Grid.Row="1" Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Итоговая сумма за день:"/>
+            <TextBlock Text="{Binding SummDay}"/>
+            <TextBlock Text="руб"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="10"
+                    Grid.Row="2" Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Итоговая сумма за месяц:"/>
+            <TextBlock Text="{Binding SummMonth}"/>
+            <TextBlock Text="руб"/>
         </StackPanel>
     </Grid>
 
