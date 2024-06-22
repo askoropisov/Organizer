@@ -58,10 +58,8 @@ namespace Organizer
             container.RegisterMany<DatabaseService>(Reuse.Singleton);
             container.RegisterMany<NavigationService>(Reuse.Singleton);
             container.Register<PathsService>(Reuse.Singleton);
-            container.Register<HistoryService>(Reuse.Singleton);
             container.Register<ItemsService>(Reuse.Singleton);
 
-            container.Register<HistoryConfig>(Reuse.Singleton);
             container.Register<ItemsConfig>(Reuse.Singleton);
 
             container.Register<PiePlot>(Reuse.Singleton);
