@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Organizer.ViewModels
 {
-    public class HistoryViewModel : ViewModelBase, INavigationPage
+    public class SettingsViewModel : ViewModelBase, INavigationPage
     {
 
-        public HistoryViewModel()
+        public SettingsViewModel()
         {
 
         }

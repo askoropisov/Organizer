@@ -1,26 +1,40 @@
 using Organizer.Infrastructure.Factories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Organizer.Infrastructure.Services;
+using Organizer.ViewModels.Controlls;
+using ReactiveUI;
 
 namespace Organizer.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly ViewModelFactory _vmFactory;
+        private readonly NavigationService _navigationService;
+        private readonly ViewModelFactory _viewModelFactory;
 
-        public MainWindowViewModel(ViewModelFactory vmFactory)
+
+        public MainWindowViewModel(NavigationService navigation,
+                                   ViewModelFactory viewModelFactory)
         {
-            _vmFactory = vmFactory;
+            _navigationService = navigation;
+            _viewModelFactory = viewModelFactory;
 
-            FCDataContext = _vmFactory.Create<FinanceCalculateViewModel>();
-            HistoryDataContext = _vmFactory.Create<HistoryViewModel>();
-            AboutDataContext = _vmFactory.Create<AboutViewModel>();
+            _navigationService.PageChanged += OnPageChanged;
+            _navigationService.NavigateTo<FinanceCalculateViewModel>();
+            NavigationTop = _viewModelFactory.Create<NavigationTopViewModel>();
+
         }
 
+        public NavigationTopViewModel NavigationTop { get; }
 
-        public FinanceCalculateViewModel FCDataContext { get; }
-        public HistoryViewModel HistoryDataContext { get; }
-        public AboutViewModel AboutDataContext { get; }
+        private ViewModelBase? _currentPage;
+        public ViewModelBase? CurrentPage
+        {
+            get => _currentPage;
+            set => this.RaiseAndSetIfChanged(ref _currentPage, value);
+        }
+
+        private void OnPageChanged(object? sender, ViewModelBase e)
+        {
+            CurrentPage = e;
+        }
     }
 }

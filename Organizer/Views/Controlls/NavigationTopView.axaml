@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="using:Organizer.Infrastructure.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Organizer.Views.Controlls.NavigationTopView">
+
+
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+    </UserControl.Styles>
+
+    <UserControl.Resources>
+        <converters:BoolToColorConverter x:Key="boolToColorConverter"/>
+    </UserControl.Resources>
+
+    <Grid MinWidth="32">
+
+        <StackPanel Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Command="{Binding GoMain}" Content="Главная"
+                    Background="{Binding IsMain, Converter={StaticResource boolToColorConverter}}"/>
+            <Button Command="{Binding GoHistory}" Content="История"
+                    Background="{Binding IsHistory, Converter={StaticResource boolToColorConverter}}"/>
+            <Button Command="{Binding GoSettings}" Content="Настройки"
+                    Background="{Binding IsSettings, Converter={StaticResource boolToColorConverter}}"/>
+            <Button Command="{Binding GoInfo}" Content="Информация"
+                    Background="{Binding IsInfo, Converter={StaticResource boolToColorConverter}}"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

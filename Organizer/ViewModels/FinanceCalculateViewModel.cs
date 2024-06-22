@@ -2,6 +2,7 @@
 using Avalonia.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
 using Organizer.Infrastructure;
+using Organizer.Infrastructure.Interfaces;
 using Organizer.Infrastructure.Services;
 using Organizer.Models;
 using Organizer.Services;
@@ -23,7 +24,7 @@ using System.Windows.Input;
 namespace Organizer.ViewModels
 {
 
-    public class FinanceCalculateViewModel : ViewModelBase
+    public class FinanceCalculateViewModel : ViewModelBase, INavigationPage
     {
         private readonly Func<DataContext> _dataContextFactory;
         private readonly ItemsService _items;
@@ -45,7 +46,7 @@ namespace Organizer.ViewModels
             _path = path;
             _plot = plot;
 
-            Init();
+            //Init();
 
 
             //CurrentImage = new Bitmap(_path.ConfigDirectory + "/currentPie.png");
@@ -197,6 +198,16 @@ namespace Organizer.ViewModels
         //        _history.CollectionHistory = NewHistory;
         //        OnPropertyChanged();
         //    }
+        }
+
+        public void OnNavigatedFrom()
+        {
+
+        }
+
+        public void OnNavigatedTo()
+        {
+            Init();
         }
     }
 }

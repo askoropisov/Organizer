@@ -14,6 +14,7 @@ using Organizer.Models;
 using Organizer.Models.Configs;
 using Organizer.Services;
 using Organizer.ViewModels;
+using Organizer.ViewModels.Controlls;
 using Organizer.Views;
 using ReactiveUI;
 using Splat;
@@ -51,7 +52,9 @@ namespace Organizer
 
             container.Register<ViewModelFactory>(Reuse.Singleton);
 
+            //Register Services
             container.RegisterMany<DatabaseService>(Reuse.Singleton);
+            container.RegisterMany<NavigationService>(Reuse.Singleton);
             container.Register<PathsService>(Reuse.Singleton);
             container.Register<HistoryService>(Reuse.Singleton);
             container.Register<ItemsService>(Reuse.Singleton);
@@ -61,10 +64,13 @@ namespace Organizer
 
             container.Register<PiePlot>(Reuse.Singleton);
 
+            //Register VM
             container.Register<MainWindowViewModel>(Reuse.Singleton);
-            container.Register<AboutViewModel>();
-            container.Register<FinanceCalculateViewModel>();
-            container.Register<HistoryViewModel>();
+            container.Register<FinanceCalculateViewModel>(Reuse.Singleton);
+            container.Register<NavigationTopViewModel>(Reuse.Singleton);
+            container.Register<AboutViewModel>(Reuse.Singleton);
+            container.Register<HistoryViewModel>(Reuse.Singleton);
+            container.Register<SettingsViewModel>(Reuse.Singleton);
 
             var resolver = new DryIocDependencyResolver(container);
             Locator.SetLocator(resolver);
