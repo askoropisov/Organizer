@@ -4,7 +4,11 @@ using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
 using DryIoc;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Organizer.Infrastructure;
 using Organizer.Infrastructure.Factories;
+using Organizer.Infrastructure.Interfaces;
 using Organizer.Infrastructure.Services;
 using Organizer.Models;
 using Organizer.Models.Configs;
@@ -14,6 +18,8 @@ using Organizer.Views;
 using ReactiveUI;
 using Splat;
 using Splat.DryIoc;
+using System;
+using System.IO;
 
 namespace Organizer
 {
@@ -25,7 +31,7 @@ namespace Organizer
         public override void Initialize()
         {
             InitializeDI();
-            //InitializeModules();
+            InitializeModules();
             AvaloniaXamlLoader.Load(this);
         }
 
@@ -33,8 +39,19 @@ namespace Organizer
         {
             var container = new Container();
 
+            container.RegisterDelegate(context =>
+            {
+                var pathService = context.Resolve<PathsService>();
+                string connectionStr = new SqliteConnectionStringBuilder { DataSource = Path.Combine(pathService.DbDirectory, "data.db") }.ToString();
+
+                return new DbContextOptionsBuilder().UseSqlite(connectionStr).Options;
+            });
+            container.Register<DataContext>(setup: Setup.With(allowDisposableTransient: true));
+
+
             container.Register<ViewModelFactory>(Reuse.Singleton);
 
+            container.RegisterMany<DatabaseService>(Reuse.Singleton);
             container.Register<PathsService>(Reuse.Singleton);
             container.Register<HistoryService>(Reuse.Singleton);
             container.Register<ItemsService>(Reuse.Singleton);
@@ -61,6 +78,26 @@ namespace Organizer
 
             Container = container;
         }
+
+        public async void InitializeModules()
+        {
+            Console.WriteLine("Start initializing modules");
+
+            var desktopServices = Container.ResolveMany<IDesktopAppService>();
+
+            foreach (var service in desktopServices)
+            {
+                try
+                {
+                    Console.WriteLine($"Start service {service.GetType().Name}");
+                    await service.StartAsync();
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
 
         public override void OnFrameworkInitializationCompleted()
         {

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Organizer.Infrastructure.Services
 {
@@ -26,7 +22,7 @@ namespace Organizer.Infrastructure.Services
 
         public string ConfigDirectory => _configDirectory;
         public string LogDirectory => _logDirectory;
-        //public string DbDirectory => _rootDirectory;
+        public string DbDirectory => _rootDirectory;
 
     }
 }
