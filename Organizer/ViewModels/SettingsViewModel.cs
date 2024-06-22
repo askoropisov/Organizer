@@ -1,5 +1,4 @@
-﻿using DryIoc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Organizer.Infrastructure;
 using Organizer.Infrastructure.Interfaces;
 using Organizer.Infrastructure.Services;

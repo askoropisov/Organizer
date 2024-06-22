@@ -1,25 +1,16 @@
-﻿using Avalonia.Data;
-using Avalonia.Media.Imaging;
+﻿using Avalonia.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
 using Organizer.Infrastructure;
 using Organizer.Infrastructure.Interfaces;
 using Organizer.Infrastructure.Services;
 using Organizer.Models;
 using Organizer.Services;
-using OxyPlot;
-using OxyPlot.Series;
-using Prism.Commands;
 using ReactiveUI;
-using ScottPlot.Avalonia;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Organizer.ViewModels
 {
@@ -35,7 +26,6 @@ namespace Organizer.ViewModels
 
         public FinanceCalculateViewModel(Func<DataContext> dataContextFactory,
                                          ItemsService items,
-                                         HistoryService history,
                                          PathsService path,
                                          PiePlot plot)
         {
@@ -59,7 +49,7 @@ namespace Organizer.ViewModels
             get => _selCat;
             set
             {
-                this.RaiseAndSetIfChanged(ref  _selCat, value);
+                this.RaiseAndSetIfChanged(ref _selCat, value);
             }
         }
 
@@ -135,21 +125,7 @@ namespace Organizer.ViewModels
         /// </summary>
         public async void SaveDatasAsync()
         {
-            var record = new RecordMonth();
-            record.Data = NowTime;
-            record.Eat = ResEat;
-            record.Home = ResHome;
-            record.Transport = ResTransport;
-            record.Services = ResServices;
-            record.Relaxation = ResRelax;
-            record.Other = ResOther;
-            record.Total = TotalMoney;
-            record.Income = ResIncome;
-            record.Difference = Difference;
 
-            using var db = _dataContextFactory();
-            db.RecordMonths.Add(record);
-            await db.SaveChangesAsync();
         }
 
         public void OnNavigatedFrom()

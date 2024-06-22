@@ -1,15 +1,9 @@
 ﻿using Organizer.Infrastructure.Services;
 using Organizer.Models;
 using Organizer.Models.Configs;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Organizer.Services
 {
@@ -18,7 +12,7 @@ namespace Organizer.Services
         private readonly PathsService _paths;
         private readonly ItemsConfig _conf;
         Items _items;
-        
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -146,7 +140,7 @@ namespace Organizer.Services
             string fileJSON = File.ReadAllText(path);
 
             int index = fileJSON.IndexOf(symbol);
-            fileJSON = fileJSON.Substring(0, index+1);
+            fileJSON = fileJSON.Substring(0, index + 1);
 
             File.WriteAllText(path, fileJSON);
         }

@@ -1,5 +1,5 @@
-﻿using ReactiveUI;
-using DryIoc;
+﻿using DryIoc;
+using ReactiveUI;
 
 namespace Organizer.Infrastructure.Factories
 {
