@@ -120,7 +120,7 @@ namespace Organizer.ViewModels
             using var context = _dataContextFactory();
             int CountRec = context.Categories.Count();
             var recItems = await (from cat in context.Categories
-                                  select new Category(cat.Id, cat.Name))
+                                  select new Category(cat.Name))
                             .Take(CountRec)
                             .ToListAsync();
 

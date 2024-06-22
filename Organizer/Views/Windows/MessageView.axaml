@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Organizer.Views.Windows.MessageView"
+        WindowStartupLocation="CenterOwner"
+        Width="500" Height="300"
+        Title="Информация">
+
+    <Window.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Styles>
+
+    <StackPanel Spacing="40">
+        <TextBlock Text="{Binding Header}" FontSize="24"/>
+        <TextBlock Text="{Binding Message}" TextWrapping="WrapWithOverflow" FontSize="18"/>
+        <TextBlock Text="{Binding Info}" TextWrapping="WrapWithOverflow" FontSize="16"/>
+    </StackPanel>
+
+</Window>

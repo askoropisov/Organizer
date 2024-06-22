@@ -4,5 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Organizer.Views.SettingsView">
-  Welcome to Avalonia!
+
+    <Grid ShowGridLines="True" ColumnDefinitions="*,*">
+
+        <StackPanel Orientation="Vertical" Spacing="20" Grid.Column="0"
+                    VerticalAlignment="Top">
+            <TextBlock Text="Доступные категории" HorizontalAlignment="Center"
+                       FontSize="24"/>
+            <ListBox Items="{Binding Categories}" Margin="40"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Spacing="20" Grid.Column="1"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Новая категория" HorizontalAlignment="Center"/>
+            <TextBox Text="{Binding NewItem}" Width="300"/>
+            <Button Command="{Binding AddCategory}" HorizontalAlignment="Center"
+                    Content="Добавить"/>
+        </StackPanel>
+    </Grid>
+
 </UserControl>
