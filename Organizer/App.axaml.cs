@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using Avalonia.Threading;
 using DryIoc;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +21,7 @@ using Splat;
 using Splat.DryIoc;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Organizer
 {
@@ -62,8 +62,6 @@ namespace Organizer
 
             container.Register<ItemsConfig>(Reuse.Singleton);
 
-            container.Register<PiePlot>(Reuse.Singleton);
-
             //Register VM
             container.Register<FinanceCalculateViewModel>(Reuse.Singleton);
             container.Register<NavigationTopViewModel>(Reuse.Singleton);
@@ -72,6 +70,7 @@ namespace Organizer
             container.Register<MessageViewModel>(Reuse.Singleton);
             container.Register<SettingsViewModel>(Reuse.Singleton);
             container.Register<AboutViewModel>(Reuse.Singleton);
+            container.Register<PlotViewModel>(Reuse.Singleton);
 
             var resolver = new DryIocDependencyResolver(container);
             Locator.SetLocator(resolver);
@@ -96,7 +95,6 @@ namespace Organizer
             {
                 try
                 {
-                    Console.WriteLine($"Start service {service.GetType().Name}");
                     await service.StartAsync();
                 }
                 catch (Exception ex)
@@ -110,10 +108,17 @@ namespace Organizer
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow
+                var args = Environment.GetCommandLineArgs();
+                Avalonia.Controls.WindowState state = Avalonia.Controls.WindowState.Maximized;
+                if (args.FirstOrDefault(a => a.ToUpper().Contains("FULLSCREEN")) != default)
                 {
-                    DataContext = Container?.Resolve<MainWindowViewModel>(),
-                };
+                    state = Avalonia.Controls.WindowState.FullScreen;
+                }
+
+                var vm = Container?.Resolve<MainWindowViewModel>();
+                desktop.MainWindow = Container.Resolve<MainWindow>();
+                desktop.MainWindow.DataContext = vm;
+                desktop.MainWindow.WindowState = state;
             }
 
             base.OnFrameworkInitializationCompleted();

@@ -22,21 +22,18 @@ namespace Organizer.ViewModels
         private readonly DialogService _dialogService;
         private readonly ItemsService _items;
         private readonly PathsService _path;
-        private readonly PiePlot _plot;
 
         private readonly Regex regex = new Regex(@"\d+");
 
         public FinanceCalculateViewModel(Func<DataContext> dataContextFactory,
                                          DialogService dialogService,
                                          ItemsService items,
-                                         PathsService path,
-                                         PiePlot plot)
+                                         PathsService path)
         {
             _dataContextFactory = dataContextFactory;
             _dialogService = dialogService;
             _items = items;
             _path = path;
-            _plot = plot;
         }
 
         ObservableCollection<string> Categories { get; set; } = new ObservableCollection<string>();

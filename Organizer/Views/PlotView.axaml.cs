@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Organizer.Views
 {
-    public partial class AboutView : UserControl
+    public partial class PlotView : UserControl
     {
-        public AboutView()
+        public PlotView()
         {
             InitializeComponent();
         }

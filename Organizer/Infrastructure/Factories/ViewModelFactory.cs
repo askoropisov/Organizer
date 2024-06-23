@@ -1,5 +1,6 @@
 ﻿using DryIoc;
-using ReactiveUI;
+using Organizer.ViewModels;
+using System;
 
 namespace Organizer.Infrastructure.Factories
 {
@@ -12,9 +13,19 @@ namespace Organizer.Infrastructure.Factories
             _container = container;
         }
 
-        public T Create<T>() where T : ReactiveObject
+        public T Create<T>() where T : ViewModelBase
         {
-            return _container.Resolve<T>();
+            try
+            {
+                var instance = _container.Resolve<T>();
+                return instance;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return null;
         }
     }
+
 }

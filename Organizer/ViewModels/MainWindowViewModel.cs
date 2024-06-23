@@ -10,7 +10,6 @@ namespace Organizer.ViewModels
         private readonly NavigationService _navigationService;
         private readonly ViewModelFactory _viewModelFactory;
 
-
         public MainWindowViewModel(NavigationService navigation,
                                    ViewModelFactory viewModelFactory)
         {

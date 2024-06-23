@@ -11,7 +11,7 @@
                     VerticalAlignment="Top">
             <TextBlock Text="Доступные категории" HorizontalAlignment="Center"
                        FontSize="24"/>
-            <ListBox Items="{Binding Categories}" Margin="40"/>
+            <ListBox ItemsSource="{Binding Categories}" Margin="40"/>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Spacing="20" Grid.Column="1"

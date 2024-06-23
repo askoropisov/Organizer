@@ -1,15 +1,15 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:Organizer"
-             x:Class="Organizer.App">
+             x:Class="Organizer.App"
+             RequestedThemeVariant="Dark">
+
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
 
     <Application.Styles>
-        <!--<StyleInclude Source="avares://Citrus.Avalonia/Sea.xaml"/>-->
-
-        <FluentTheme Mode="Dark"/>
+ 
     </Application.Styles>
 
     <Application.Resources>
